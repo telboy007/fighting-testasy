@@ -1,0 +1,11 @@
+{% extends "path-report.html" %}
+{% block content %}
+    {% for item in content %}
+        {% if item.debug_info %}
+            <button class="collapsible">{{ item.pathing }}</button>
+            <div class="content">{{ item.debug_info }}</div><br />
+        {% endif %}
+        <b>{{ item.section_number }}</b>
+        <p>{{ item.description |safe }}</p>
+    {% endfor %}
+{% endblock %}

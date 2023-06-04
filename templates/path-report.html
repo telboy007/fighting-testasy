@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+ul {
+  list-style-type: square;
+  list-style-position: outside;
+}
+
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 14px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 12px;
+}
+
+.active, .collapsible:hover {
+  background-color: #555;
+}
+
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
+
+.summary {
+  background-color: #d1e3de;
+}
+</style>
+</head>
+<body>
+
+<h2>Pathing run {{ iteration }} of {{ total_run_count }} - Test Report</h2>
+
+<p>START OF TEST</p>
+
+{% block content %}
+    
+{% endblock %}
+
+<p>END OF TEST</p>
+
+<div class="summary">
+  <h3>Pathing Summary - run {{ iteration }} of {{ total_run_count }}</h3>
+  <ul>
+    <li><b>Last section visited:</b> {{ current_section }} (last section in adventure is {{ last_section }})</li>
+    <li><b>This journey:</b> {{ current_journey }}</li>
+    <li><b>All sections visited so far:</b> {{ all_sections_run_sorted }}</li>
+    <li><b>Sections not visited by any journey:</b> {{ sections_not_visited_sorted }}</li>
+  </ul>
+</div>
+
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } 
+  });
+}
+</script>
+
+</body>
+</html>

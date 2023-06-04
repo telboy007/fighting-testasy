@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+ul {
+  list-style-type: square;
+  list-style-position: outside;
+}
+
+.summary {
+  background-color: #d1e3de;
+}
+</style>
+</head>
+<body>
+
+<h2>Exit Checker - Test Report</h2>
+
+<p>START OF TEST</p>
+
+<div class="summary">
+  <h3>Following sections cannot be accessed by the reader:</h3>
+  <ul>
+    <li>{{ unaccessible_sections }}</li>
+  </ul>
+</div>
+
+<p>Those sections are as follows:</p>
+
+{% block content %}
+    
+{% endblock %}
+
+<p>END OF TEST</p>
+
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } 
+  });
+}
+</script>
+
+</body>
+</html>
