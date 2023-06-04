@@ -1,3 +1,5 @@
+[![Tests](https://github.com/telboy007/fighting-testasy/actions/workflows/build.yml/badge.svg)](https://github.com/telboy007/fighting-testasy/actions/workflows/build.yml)
+
 # Fighting Testasy
 
 Tests your choose your own adventure!  This tool is very much an alpha at the moment, collaboration is welcome.
