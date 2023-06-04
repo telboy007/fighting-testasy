@@ -26,13 +26,13 @@ Currently the test tool can deal with this style of structure
 
 The adventure begins, you are in a room with a door to the left and another to the right. If you go left (go to 3), if you go right (go to 2).
 
-2 
+2
 
 You enter into another room, this seems to be a dead end. You failed!
 
 3
 
-You enter the room and see another door in front of you Go through the door (go to 5).
+You enter the room and see another door in front of you. Go through the door (go to 5).
 
 4
 
@@ -46,22 +46,40 @@ You find the treasure you’ve been searching for, congratulations adventurer. Y
 
 ### How to use it
 
-This test tool only runs locally at the moment, there is not packaged version yet.
+This test tool only runs locally at the moment, there is not a packaged version yet.
 
 1. Clone the repo
 1. Add your PDF into the repo
 
 PLEASE NOTE: Only have the adventure part in this pdf - remove the introduction sections, appendix, etc.  The adventure part can have images, maps, etc. they will be ignored.  Any font that is not recognised will appear as garbled characters in the section descriptions.
 
-3. Run the following command:
-  `python pathway_tester.py -i *your_pdf_file_name* -s 1 -r 10`
-  This will run the path tester against your pdf starting at section 1 and it will run 10 times.
-  Results can be found in the "pathing-tests" folder.
+3. Run the following command: `python pathway_tester.py -i *your_pdf_file_name* -s 1 -r 10` - this will run the path tester against your pdf starting at section 1 and it will run 10 times, results can be found in the "pathing-tests" folder.
 1. Each tool has its own help text to show you which command line args they need, use `-h` as the only arg to access this text.
+
+```
+usage: python exit_checker.py [-h] -i INPUT_FILE [-s SECTION_NUMBER] [-c CONFIG_FILE]
+
+Finding orphaned sections so you don't have to.
+
+options:
+  -h, --help            show this help message and exit
+  -i INPUT_FILE, --input_file INPUT_FILE
+                        Name of input file
+  -s SECTION_NUMBER, --section_number SECTION_NUMBER
+                        Starting section will be ignored when checking for orphaned sections
+  -c CONFIG_FILE, --config_file CONFIG_FILE
+                        Config file for test tool
+
+See README for more details.
+```
 
 ### Features of the test reports
 
-* The pathing test report will have debug information showing by dark grey bars that appear between the sections of text, these show the decision logic the tool used to navigate to the next section - in case you're wondering what is going on behind the scenes.  Also there is a summary at the bottom showing the journey through the adventure, what sections have been visited so far and which haven't.  The summary changes over the test run, i.e. by the 10th test run report the not visited sections should be a lot smaller than in the first report.
+* The pathing test report will have debug information shown by dark grey bars that appear between the sections of text, these show the decision logic the tool used to navigate to the next section - in case you're wondering what is going on behind the scenes.  Also there is a summary at the bottom showing the journey through the adventure, what sections have been visited so far and which haven't.  The summary changes over the test run, i.e. by the 10th test run report the not visited sections should be a lot smaller than in the first report.
+
+<img width="907" alt="Example test report showing debug info and summary information." src="https://github.com/telboy007/fighting-testasy/assets/34102414/cbd1cd7d-793f-45a0-a5bb-2955833e08f2"><br />
+Example test report showing debug info and summary information.
+
 * The exit checker test report will show a list of the sections the reader will never access and also print out the section text along with any exits mentioned in it's text.
 * The branch imager creates cool looking images of the pathways through the adventure, but they will be colour coded (difficult to see unless you zoom in) - the start is purple, the best ending is green and any of the configured not allowed sections will be coloured red.
 

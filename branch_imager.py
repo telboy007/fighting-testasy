@@ -15,7 +15,7 @@ import re
 import fitz
 import networkx as nx
 import matplotlib
-matplotlib.use('TkAgg')
+matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 
 
@@ -36,7 +36,7 @@ for file in Path(PATHING_DIRECTORY).glob('*.png'):
 
 # set up command line parser
 parser = argparse.ArgumentParser(
-                    prog = 'Fighting Testasy - Pathway Tester',
+                    prog = 'python branch_imager.py',
                     description = 'Test your own adventure.',
                     epilog = 'See README for more details.')
 
