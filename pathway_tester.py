@@ -32,7 +32,7 @@ for file in Path(PATHING_DIRECTORY).glob('*.html'):
 
 # set up command line parser
 parser = argparse.ArgumentParser(
-                    prog = 'Fighting Testasy - Pathway Tester',
+                    prog = 'python pathway_test.py',
                     description = 'Test your own adventure.',
                     epilog = 'See README for more details.')
 
