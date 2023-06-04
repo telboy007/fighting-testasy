@@ -47,14 +47,14 @@ for file in Path(PATHING_DIRECTORY).glob('*.html'):
 
 # set up command line parser
 parser = argparse.ArgumentParser(
-                    prog = 'Fighting Testasy - Exit Checker',
+                    prog = 'python exit_checker.py',
                     description = 'Finding orphaned sections so you don\'t have to.',
                     epilog = 'See README for more details.')
 
 parser.add_argument('-i', '--input_file', help='Name of input file', required=True) # required
 parser.add_argument('-s',
                     '--section_number',
-                    help='To start test at a different section number than one',
+                    help='Starting section will be ignored when checking for orphaned sections',
                     default=1,
                     required=False
                     ) # optional
