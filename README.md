@@ -100,7 +100,7 @@ Example test report showing debug info and summary information (zero shouldn't b
 
 * "insert_zero": if your adventure starts with an introduction passage which doesn't have a section number, change this to true and this will add a zero to the start of the adventure.
 * "page_dimensions": this is super important, this tells the PDF parser what sections of the page to ignore, i.e. headers and footers.  Page numbers will cause multiple problems if they are captured along with the adventure text (read more [here](https://pymupdf.readthedocs.io/en/latest/rect.html#rect)).
-* "not_Allowed_choices": use this to list out sections which end the adventure, the pathing tool will avoid them. NOTE: at a later date another config option will be added to the pathing tool that will instruct the tool to visit these end sections at least once.
+* "not_allowed_choices": use this to list out sections which end the adventure, the pathing tool will avoid them. NOTE: at a later date another config option will be added to the pathing tool that will instruct the tool to visit these end sections at least once.
 * "link_text": is also super important, this tells the pathing tool which text phrase is used before the section number the reader needs to jump to next.
 * "last_section": allows you to configure the last section, this can be the end of the adventure or the end of a chapter or any section you want really.
 
