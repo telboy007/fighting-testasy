@@ -53,7 +53,7 @@ This test tool only runs locally at the moment, there is not packaged version ye
 
 PLEASE NOTE: Only have the adventure part in this pdf - remove the introduction sections, appendix, etc.  The adventure part can have images, maps, etc. they will be ignored.  Any font that is not recognised will appear as garbled characters in the section descriptions.
 
-1. Run the following command:
+3. Run the following command:
   `python pathway_tester.py -i *your_pdf_file_name* -s 1 -r 10`
   This will run the path tester against your pdf starting at section 1 and it will run 10 times.
   Results can be found in the "pathing-tests" folder.
@@ -61,7 +61,7 @@ PLEASE NOTE: Only have the adventure part in this pdf - remove the introduction 
 
 ### Features of the test reports
 
-* The pathing test report will have debug information showing by dark grey bars that appear between the sections of text, these show the decision logic the tool used to navigate to the next section - in case you're wondering what is going on behind the scenes.  Also there is a summary at the bottom showing the journey through the adventure, what sections have been visited so far and which haven't.  The summary changes over the test run, i.e. by the 10th test run report the not visited sections should a lot smaller than in the first report.
+* The pathing test report will have debug information showing by dark grey bars that appear between the sections of text, these show the decision logic the tool used to navigate to the next section - in case you're wondering what is going on behind the scenes.  Also there is a summary at the bottom showing the journey through the adventure, what sections have been visited so far and which haven't.  The summary changes over the test run, i.e. by the 10th test run report the not visited sections should be a lot smaller than in the first report.
 * The exit checker test report will show a list of the sections the reader will never access and also print out the section text along with any exits mentioned in it's text.
 * The branch imager creates cool looking images of the pathways through the adventure, but they will be colour coded (difficult to see unless you zoom in) - the start is purple, the best ending is green and any of the configured not allowed sections will be coloured red.
 
