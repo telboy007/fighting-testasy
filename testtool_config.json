@@ -1,7 +1,7 @@
 {
     "insert_zero": false,
     "page_dimensions": [0, 0, 612, 700],
-    "not_allowed_choices": ["8", "57", "115", "170", "174", "201", "219", "291", "356"],
-    "link_text": "go to ",
-    "last_section": "400"
+    "not_allowed_choices": [],
+    "link_text": "go to section ",
+    "last_section": "100"
 }
