@@ -78,7 +78,7 @@ See README for more details.
 * The pathing test report will have debug information shown by dark grey bars that appear between the sections of text, these show the decision logic the tool used to navigate to the next section - in case you're wondering what is going on behind the scenes.  Also there is a summary at the bottom showing the journey through the adventure, what sections have been visited so far and which haven't.  The summary changes over the test run, i.e. by the 10th test run report the not visited sections should be a lot smaller than in the first report.
 
 <img width="907" alt="Example test report showing debug info and summary information." src="https://github.com/telboy007/fighting-testasy/assets/34102414/cbd1cd7d-793f-45a0-a5bb-2955833e08f2"><br />
-Example test report showing debug info and summary information.
+Example test report showing debug info and summary information (zero shouldn't be displayed, that is a [bug](https://github.com/telboy007/fighting-testasy/issues/4)).
 
 * The exit checker test report will show a list of the sections the reader will never access and also print out the section text along with any exits mentioned in it's text.
 * The branch imager creates cool looking images of the pathways through the adventure, but they will be colour coded (difficult to see unless you zoom in) - the start is purple, the best ending is green and any of the configured not allowed sections will be coloured red.
@@ -98,19 +98,15 @@ Example test report showing debug info and summary information.
 }
 ```
 
-If you adventure starts with an introduction passage with doesn't have a section number change "insert_zero" to true and this will add a zero to the start of the adventure.
-
-Page dimensions is super important, this tells the PDF parser what sections of the page to ignore, i.e. headers and footers.  Page numbers will cause multiple problems if they are captured along with the adventure text.
-
-Not allowed choices allows you to add all the sections which end the adventure, the pathing tool will avoid them. NOTE: at a later date another config option will be added to the pathing tool that will let you tell the tool to visit these end sections at least once.
-
-Link text is also super important, this tells the pathing tool what text phrase is used before the section number the reader needs to jump to.
-
-Last section allows you to configure the last section, this can be the end of the adventure or the end of a chapter or any section you want.
+* "insert_zero": if your adventure starts with an introduction passage which doesn't have a section number, change this to true and this will add a zero to the start of the adventure.
+* "page_dimensions": this is super important, this tells the PDF parser what sections of the page to ignore, i.e. headers and footers.  Page numbers will cause multiple problems if they are captured along with the adventure text (read more [here](https://pymupdf.readthedocs.io/en/latest/rect.html#rect)).
+* "not_Allowed_choices": use this to list out sections which end the adventure, the pathing tool will avoid them. NOTE: at a later date another config option will be added to the pathing tool that will instruct the tool to visit these end sections at least once.
+* "link_text": is also super important, this tells the pathing tool which text phrase is used before the section number the reader needs to jump to next.
+* "last_section": allows you to configure the last section, this can be the end of the adventure or the end of a chapter or any section you want really.
 
 ### Tests
 
-All PRs will have tests run against them, just a heads up that the tests are functional at best due to the way the code is currently written.  As it is refactored over time the tests will get better.  Pinky promise.
+* All PRs will have tests run against them, just a heads up that the tests are functional at best due to the way the code is currently written.  As it is refactored over time the tests will get better.  Pinky promise.
 
 ### Big thanks
 
@@ -118,4 +114,4 @@ All PRs will have tests run against them, just a heads up that the tests are fun
 
 ### Troubleshooting
 
-Raise an issue here and I will get back to you, thanks!
+* Raise an issue here and I will get back to you, thanks!
