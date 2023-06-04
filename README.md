@@ -83,6 +83,9 @@ See README for more details.
 Example test report showing debug info and summary information (zero shouldn't be displayed, that is a [bug](https://github.com/telboy007/fighting-testasy/issues/4)).
 
 * The exit checker test report will show a list of the sections the reader will never access and also print out the section text along with any exits mentioned in it's text.
+
+<img width="506" alt="Screenshot 2023-06-04 at 20 36 34" src="https://github.com/telboy007/fighting-testasy/assets/34102414/7cae77e6-ec7b-448f-8684-94b6e9018238">
+
 * The branch imager creates cool looking images of the pathways through the adventure, but they will be colour coded (difficult to see unless you zoom in) - the start is purple, the best ending is green and any of the configured not allowed sections will be coloured red.
 
 ### How to configure it
