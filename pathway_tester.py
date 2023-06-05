@@ -207,8 +207,10 @@ for run in range(total_run_count):
     comparison_range = range(int(last_section) + 1)
     sections_not_visited = set(comparison_range).difference(all_sections_run_sorted)
 
-    # remove not allowed choices from the not visited list
+    # remove not allowed choices from the not visited list including zero
     not_allowed_choices_int = [literal_eval(i) for i in not_allowed_choices]
+    not_allowed_choices_int.append(0)
+
     for item in not_allowed_choices_int:
         try:
             sections_not_visited.remove(item)

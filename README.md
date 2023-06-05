@@ -79,12 +79,13 @@ See README for more details.
 
 * The pathing test report will have debug information shown by dark grey bars that appear between the sections of text, these show the decision logic the tool used to navigate to the next section - in case you're wondering what is going on behind the scenes.  Also there is a summary at the bottom showing the journey through the adventure, what sections have been visited so far and which haven't.  The summary changes over the test run, i.e. by the 10th test run report the not visited sections should be a lot smaller than in the first report.
 
-<img width="907" alt="Example test report showing debug info and summary information." src="https://github.com/telboy007/fighting-testasy/assets/34102414/cbd1cd7d-793f-45a0-a5bb-2955833e08f2"><br />
-Example test report showing debug info and summary information (zero shouldn't be displayed, that is a [bug](https://github.com/telboy007/fighting-testasy/issues/4)).
+<img width="916" alt="Example test report showing debug info and summary information." src="/media/pathing_report.png"><br />
+Example test report showing debug info and summary information.
 
 * The exit checker test report will show a list of the sections the reader will never access and also print out the section text along with any exits mentioned in it's text.
 
-<img width="506" alt="Screenshot 2023-06-04 at 20 36 34" src="https://github.com/telboy007/fighting-testasy/assets/34102414/7cae77e6-ec7b-448f-8684-94b6e9018238">
+<img width="506" alt="Orphaned sections" src="/media/exit_checker_report.png"><br />
+Orphaned sections shown in the exit checker report.
 
 * The branch imager creates cool looking images of the pathways through the adventure, but they will be colour coded (difficult to see unless you zoom in) - the start is purple, the best ending is green and any of the configured not allowed sections will be coloured red.
 
