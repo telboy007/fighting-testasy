@@ -89,6 +89,9 @@ Orphaned sections shown in the exit checker report.
 
 * The branch imager creates cool looking images of the pathways through the adventure, but they will be colour coded (difficult to see unless you zoom in) - the start is purple, the best ending is green and any of the configured not allowed sections will be coloured red.
 
+<img width="264" alt="Branch imager" src="/media/branching_image.png"><br />
+Simple branch imaging example.
+
 ### How to configure it
 
 * Anything that will need changing frequently is a command line arg - i.e. starting section, input file, number of test runs.

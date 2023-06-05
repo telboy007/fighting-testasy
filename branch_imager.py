@@ -12,6 +12,7 @@ import json
 from pathlib import Path
 import os
 import re
+import math
 import fitz
 import networkx as nx
 import matplotlib
@@ -126,8 +127,12 @@ for section in full_section_list:
         #add edges
         G.add_edge(str(section),section_exit)
 
+# try to work out decent sizes for the image
+figsizex = 6.4 * math.ceil(float(G.size() / 24))
+figsizey = 3.6 * math.ceil(float(G.size() / 32))
+
 # configure size and quality of final image
-fig = plt.figure(1, figsize=(200, 80), dpi=80)
+fig = plt.figure(1, figsize=(figsizex, figsizey), dpi=100)
 
 # create colour map for nodes
 colour_map = ["#1f78b4"] * len(full_section_list)
@@ -153,8 +158,14 @@ nx.draw(G,
         with_labels=True,
         node_color=colour_map,
         width=0.5,
-        node_size=500
+        node_size=500,
+        font_size=12,
+        font_color="white",
+        font_weight="normal"
         )
 
 # save the file
-plt.savefig(f"{PATHING_DIRECTORY}/branching.png")
+try:
+    plt.savefig(f"{PATHING_DIRECTORY}/branching.png")
+except ValueError as error:
+    raise
