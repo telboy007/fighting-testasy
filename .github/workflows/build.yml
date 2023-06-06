@@ -1,6 +1,8 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
+# https://rhysd.github.io/actionlint/
+
 name: tests
 
 on:
@@ -33,7 +35,7 @@ jobs:
         pipenv install smelly-python
 
     - name: Code smells
-    - uses: smelly-python/smell-my-pr@main
+      uses: smelly-python/smell-my-pr@main
       with: 
         github-token: ${{secrets.GITHUB_TOKEN}}
         command: pipenv run smelly-python -d .
