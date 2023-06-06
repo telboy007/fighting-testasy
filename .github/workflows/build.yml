@@ -36,7 +36,7 @@ jobs:
     - uses: smelly-python/smell-my-pr@main
       with: 
         github-token: ${{secrets.GITHUB_TOKEN}}
-        command: pipenv run smelly-python -d src
+        command: pipenv run smelly-python -d .
 
     - name: Run unit tests
       run: |
