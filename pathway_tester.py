@@ -5,20 +5,19 @@
 """
 
 import argparse
-import json
 import os
 import random
-import re
 from ast import literal_eval
 from pathlib import Path
-from jinja2 import Environment, FileSystemLoader
-import fitz
+from jinja2 import Environment, FileSystemLoader # pylint: disable=import-error
+from lib.helpers.config import import_config
+from lib.helpers.parse_adventure import parse_input_file
 
 
 # configure internal settings
 PATHING_DIRECTORY = "pathing-tests"
 
-# Check if the directory exists
+# check if the directory exists
 if not os.path.exists(PATHING_DIRECTORY):
     # If it doesn't exist, create it
     os.makedirs(PATHING_DIRECTORY)
@@ -64,54 +63,19 @@ input_file = args.input_file
 total_run_count = int(args.test_runs)
 config_file_path = args.config_file
 
-# import config file
-with open(config_file_path, "r", encoding="utf-8") as jsonfile:
-    config = json.load(jsonfile)
+# import config settings
+config = import_config(config_file_path)
 
-# config settings
+# set the config settings we want to use
 insert_zero = config["insert_zero"]
 page_dimensions = config["page_dimensions"]
 not_allowed_choices = config["not_allowed_choices"]
 last_section = config["last_section"]
-next_section_text = config["link_text"].replace(' ', r'\s*')
+next_section_text = config["link_text"]
+end_of_adventure_text = config["end_of_adventure_text"]
 
 # grab pdf contents and organise into dict
-FULL_CONTENT = ""
-
-with fitz.open(input_file) as doc:
-    for index, page in enumerate(doc):
-        # for letter = fitz.Rect(0, 0, 612, 792)
-        text_container = fitz.Rect(page_dimensions)
-        FULL_CONTENT += page.get_text("text", clip=text_container)
-
-with open('temp.txt', 'w', encoding="utf-8") as out_file:
-    if insert_zero:
-        out_file.write("0\n")
-    out_file.write(FULL_CONTENT.replace('get to 350', 'go to 350'))
-
-# build dict of sections, DESCriptions and exits
-with open('temp.txt', 'r', encoding="utf-8") as temp:
-    content = temp.read()
-
-    # Define the regular expression for matching the entries
-    SECTION_REGEX = r'(\d+)\n((?:(?!^\d+$).)*)'
-
-    # Initialize the dictionary to store the parsed entries
-    entries = {}
-
-    # Find all matching entries in the text
-    matches = re.findall(SECTION_REGEX, content, re.DOTALL | re.MULTILINE)
-
-    # Process the matches and populate the dictionary
-    for match in matches:
-        section = match[0]
-        DESC = ' '.join(match[1].split('\n'))
-        exits = re.findall(fr'{next_section_text}(\d+)', match[1], re.IGNORECASE)
-        entries[section] = {
-            'section': section,
-            'desc': DESC.replace("’", "'").replace('“', '"').replace('”', '"'),
-            'exits': exits
-        }
+entries = parse_input_file(input_file, config)
 
 # MAIN LOOP
 
@@ -145,6 +109,9 @@ for run in range(total_run_count):
     all_sections_run.append(str(section_start))
 
     while entries[CURRENT_SECTION]["exits"] != []:
+        # reset exit loop
+        EXIT_LOOP = False
+
         # make note of previous section
         previous_section = CURRENT_SECTION if CURRENT_SECTION is not None else section_start
 
@@ -154,14 +121,14 @@ for run in range(total_run_count):
         DEBUG += f"Current section exits: {entries[CURRENT_SECTION]['exits']}<br />"
 
         # grab current exits as we may need to remove options
-        CURRENT_SECTION_exits = entries[CURRENT_SECTION]["exits"]
+        current_section_exits = entries[CURRENT_SECTION]["exits"]
 
         # iterate through exits to find next valid path
-        for index, section_exit in enumerate(CURRENT_SECTION_exits):
+        for index, section_exit in enumerate(current_section_exits):
             if section_exit in not_allowed_choices:
                 DEBUG += f"Exit not allowed removing from valid options: {section_exit}<br />"
                 # remove exit from list to prevent infinite loops
-                CURRENT_SECTION_exits.remove(section_exit)
+                current_section_exits.remove(section_exit)
                 continue
             if len(entries[CURRENT_SECTION]["exits"]) == 1:
                 CURRENT_SECTION = section_exit
@@ -180,6 +147,13 @@ for run in range(total_run_count):
         # write out pathing logic
         DEBUG += f"Moving to section: {CURRENT_SECTION}"
 
+        # if end of adventure text is set trim desc here but remain in loop
+        if end_of_adventure_text:
+            if end_of_adventure_text in entries[CURRENT_SECTION]["desc"]:
+                # split description text with end of adventure text and use left portion
+                entries[CURRENT_SECTION]["desc"] = entries[CURRENT_SECTION]["desc"].split(end_of_adventure_text)[0] # pylint: disable=line-too-long
+                EXIT_LOOP = True
+
         # subsequent section content
         section = {
             "section_number": f"Section {entries[CURRENT_SECTION]['section']}",
@@ -194,8 +168,12 @@ for run in range(total_run_count):
         # keep track of sections visited in this journey
         current_journey.append(entries[CURRENT_SECTION]["section"])
 
-        # keep track of the sections visited this and previous journeys
+        # keep track of the all sections visited so far
         all_sections_run.append(entries[CURRENT_SECTION]["section"])
+
+        # if end of adventure text was found finish loop here
+        if EXIT_LOOP:
+            break
 
     # format lists into ordered integers for test summary
 
@@ -214,7 +192,7 @@ for run in range(total_run_count):
     for item in not_allowed_choices_int:
         try:
             sections_not_visited.remove(item)
-        except:
+        except: # pylint: disable=bare-except
             continue
 
     # and finally sort it
@@ -238,5 +216,9 @@ for run in range(total_run_count):
                             sections_not_visited_sorted=sections_not_visited_sorted
                             )
     # save the report
-    with open(f"{PATHING_DIRECTORY}/pass_{iteration}_test_report.html", "w", encoding="utf-8") as report:
+    with open(
+              f"{PATHING_DIRECTORY}/pass-{iteration}-test-report.html", # output file
+              "w", # mode
+              encoding="utf-8" # encoding
+              ) as report:
         report.write(output)

@@ -1,0 +1,8 @@
+{% extends "endings-report.html" %}
+{% block content %}
+    {% for section in sections %}
+        <b>Section {{ section.section }}</b><br />
+        {{ section.desc |safe }}<br />
+        Exits: {{ section.exits }}<br /><br />
+    {% endfor %}
+{% endblock %}

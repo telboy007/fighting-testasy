@@ -6,28 +6,27 @@
 
 import argparse
 from pathlib import Path
-import json
 import os
-import re
 from ast import literal_eval
-import fitz
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader # pylint: disable=import-error
+from lib.helpers.config import import_config
+from lib.helpers.parse_adventure import parse_input_file
 
 
-def flatten(l, ltypes=(list, tuple)):
+def flatten(alist, ltypes=(list, tuple)):
     """ modified from https://code.activestate.com/recipes/363051/#c10 """
-    ltype = type(l)
-    l = list(l)
+    ltype = type(alist)
+    alist = list(alist)
     i = 0
-    while i < len(l):
-        while isinstance(l[i], ltypes):
-            if not l[i]:
-                l.pop(i)
+    while i < len(alist):
+        while isinstance(alist[i], ltypes):
+            if not alist[i]:
+                alist.pop(i)
                 i -= 1
                 break
-            l[i:i + 1] = l[i]
+            alist[i:i + 1] = alist[i]
         i += 1
-    return ltype(l)
+    return ltype(alist)
 
 
 # configure internal settings
@@ -72,53 +71,19 @@ section_start = args.section_number
 input_file = args.input_file
 config_file_path = args.config_file
 
-# import config file
-with open(config_file_path, "r", encoding="utf-8") as jsonfile:
-    config = json.load(jsonfile)
+# import config settings
+config = import_config(config_file_path)
 
-# config settings
+# set the config settings we want to use
 insert_zero = config["insert_zero"]
 page_dimensions = config["page_dimensions"]
+not_allowed_choices = config["not_allowed_choices"]
 last_section = config["last_section"]
-next_section_text = config["link_text"].replace(' ', r'\s*')
+next_section_text = config["link_text"]
+end_of_adventure_text = config["end_of_adventure_text"]
 
 # grab pdf contents and organise into dict
-FULL_CONTENT = ""
-
-with fitz.open(input_file) as doc:
-    for index, page in enumerate(doc):
-        # for letter = fitz.Rect(0, 0, 612, 792)
-        text_container = fitz.Rect(page_dimensions)
-        FULL_CONTENT += page.get_text("text", clip=text_container)
-
-with open('temp.txt', 'w', encoding="utf-8") as out_file:
-    if insert_zero:
-        out_file.write("0\n")
-    out_file.write(FULL_CONTENT.replace('get to 350', 'go to 350'))
-
-# build dict of sections, descriptions and exits
-with open('temp.txt', 'r', encoding="utf-8") as temp:
-    content = temp.read()
-
-    # Define the regular expression for matching the entries
-    SECTION_REGEX = r'(\d+)\n((?:(?!^\d+$).)*)'
-
-    # Initialize the dictionary to store the parsed entries
-    entries = {}
-
-    # Find all matching entries in the text
-    matches = re.findall(SECTION_REGEX, content, re.DOTALL | re.MULTILINE)
-
-    # Process the matches and populate the dictionary
-    for match in matches:
-        section = match[0]
-        DESC = ' '.join(match[1].split('\n'))
-        exits = re.findall(fr'{next_section_text}(\d+)', match[1], re.IGNORECASE)
-        entries[section] = {
-            'section': section,
-            'desc': DESC.replace("’", "'").replace('“', '"').replace('”', '"'),
-            'exits': exits
-        }
+entries = parse_input_file(input_file, config)
 
 # MAIN LOOP
 
@@ -130,7 +95,7 @@ list_of_exits = []
 full_section_list = range(int(last_section) + 1)
 
 # create list of exits from adventure dict
-for entry in entries:
+for entry in list(entries):
     list_of_exits.append(entries[entry]['exits'])
 
 # created ordered list of integers from list of lists
@@ -140,8 +105,9 @@ list_of_exits_sorted = sorted(set(list_of_exits_int))
 
 # compare the two lists and create list that can't be accessed
 unaccessible_sections = set(full_section_list).difference(list_of_exits_sorted)
-unaccessible_sections.remove(0)
-if not insert_zero:
+if 0 in unaccessible_sections:
+    unaccessible_sections.remove(0)
+if int(section_start) in unaccessible_sections:
     unaccessible_sections.remove(int(section_start))
 
 # sort it
@@ -154,11 +120,11 @@ for item in unaccessible_sections_sorted:
 # create report for this test run
 file_loader = FileSystemLoader('templates')
 env = Environment(loader=file_loader)
-template = env.get_template('sections.html')
+template = env.get_template('exit-sections.html')
 output = template.render(
                         unaccessible_sections=unaccessible_sections_sorted,
                         sections=sections,
                         )
 # save the report
-with open(f"{PATHING_DIRECTORY}/exit_check_test_report.html", "w", encoding="utf-8") as report:
+with open(f"{PATHING_DIRECTORY}/exit-check-test-report.html", "w", encoding="utf-8") as report:
     report.write(output)

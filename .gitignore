@@ -134,7 +134,10 @@ dmypy.json
 # Fighting testasy
 branch-imaging/
 exit-checks/
+endings-finder/
 pathing-tests/
 *.pdf
+*.epub
+*.fb2*
 *.txt
 networkx
