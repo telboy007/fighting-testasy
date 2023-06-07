@@ -8,7 +8,7 @@ import pathlib as pl
 # command line
 path_command_line = "python pathway_tester.py -i {0} -r 2 -c tests/test-config.json"
 exits_command_line = "python exit_checker.py -i {0} -s 1 -c tests/test-config.json"
-endings_command_line = "python lib/utilities/endings_finder.py -i {0} -c tests/test-config.json"
+endings_command_line = "python src/utilities/endings_finder.py -i {0} -c tests/test-config.json"
 imager_command_line = "python branch_imager.py -i {0} -c tests/test-config.json"
 test_input_file = "tests/data/test.pdf"
 path_output_file1 = "pathing-tests/pass-1-test-report.html"

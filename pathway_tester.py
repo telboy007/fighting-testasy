@@ -10,8 +10,8 @@ import random
 from ast import literal_eval
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader # pylint: disable=import-error
-from lib.helpers.config import import_config
-from lib.helpers.parse_adventure import parse_input_file
+from src.helpers.config import import_config
+from src.helpers.parse_adventure import parse_input_file
 
 
 # configure internal settings
