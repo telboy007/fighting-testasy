@@ -1,7 +1,8 @@
 {
-    "insert_zero": false,
+    "insert_zero": true,
     "page_dimensions": [0, 0, 612, 700],
     "not_allowed_choices": [],
-    "link_text": "go to section ",
-    "last_section": "100"
+    "link_text": ["go to section "],
+    "last_section": "100",
+    "end_of_adventure_text": ""
 }

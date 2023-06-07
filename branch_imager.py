@@ -8,16 +8,15 @@
 """
 
 import argparse
-import json
 from pathlib import Path
 import os
-import re
 import math
-import fitz
-import networkx as nx
-import matplotlib
+import networkx as nx  # pylint: disable=import-error
+import matplotlib  # pylint: disable=wrong-import-position, import-error
 matplotlib.use('Agg')
-from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt # pylint: disable=wrong-import-position, import-error
+from lib.helpers.config import import_config # pylint: disable=wrong-import-position
+from lib.helpers.parse_adventure import parse_input_file # pylint: disable=wrong-import-position
 
 
 # configure internal settings
@@ -55,54 +54,19 @@ args = parser.parse_args()
 input_file = args.input_file
 config_file_path = args.config_file
 
-# import config file
-with open(config_file_path, "r", encoding="utf-8") as jsonfile:
-    config = json.load(jsonfile)
+# import config settings
+config = import_config(config_file_path)
 
-# config settings
+# set the config settings we want to use
 insert_zero = config["insert_zero"]
 page_dimensions = config["page_dimensions"]
 not_allowed_choices = config["not_allowed_choices"]
 last_section = config["last_section"]
-next_section_text = config["link_text"].replace(' ', r'\s*')
+next_section_text = config["link_text"]
+end_of_adventure_text = config["end_of_adventure_text"]
 
 # grab pdf contents and organise into dict
-FULL_CONTENT = ""
-
-with fitz.open(input_file) as doc:
-    for index, page in enumerate(doc):
-        # for letter = fitz.Rect(0, 0, 612, 792)
-        text_container = fitz.Rect(page_dimensions)
-        FULL_CONTENT += page.get_text("text", clip=text_container)
-
-with open('temp.txt', 'w', encoding="utf-8") as out_file:
-    if insert_zero:
-        out_file.write("0\n")
-    out_file.write(FULL_CONTENT.replace('get to 350', 'go to 350'))
-
-# build dict of sections, DESCriptions and exits
-with open('temp.txt', 'r', encoding="utf-8") as temp:
-    content = temp.read()
-
-    # Define the regular expression for matching the entries
-    SECTION_REGEX = r'(\d+)\n((?:(?!^\d+$).)*)'
-
-    # Initialize the dictionary to store the parsed entries
-    entries = {}
-
-    # Find all matching entries in the text
-    matches = re.findall(SECTION_REGEX, content, re.DOTALL | re.MULTILINE)
-
-    # Process the matches and populate the dictionary
-    for match in matches:
-        section = match[0]
-        DESC = ' '.join(match[1].split('\n'))
-        exits = re.findall(fr'{next_section_text}(\d+)', match[1], re.IGNORECASE)
-        entries[section] = {
-            'section': section,
-            'desc': DESC.replace("’", "'").replace('“', '"').replace('”', '"'),
-            'exits': exits
-        }
+entries = parse_input_file(input_file, config)
 
 # MAIN LOOP
 
@@ -168,4 +132,4 @@ nx.draw(G,
 try:
     plt.savefig(f"{PATHING_DIRECTORY}/branching.png")
 except ValueError as error:
-    raise
+    raise error
