@@ -1,4 +1,5 @@
 [![Tests](https://github.com/telboy007/fighting-testasy/actions/workflows/build.yml/badge.svg)](https://github.com/telboy007/fighting-testasy/actions/workflows/build.yml)
+[![Compatibility][https://img.shields.io/badge/compatible%20with-fb2%20%7C%20ePub%20%7C%20PDF%20(not%20scanned)-orange]
 
 # Fighting Testasy
 
