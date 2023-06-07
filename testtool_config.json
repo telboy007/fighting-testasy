@@ -1,5 +1,5 @@
 {
-    "insert_zero": true,
+    "insert_zero": false,
     "page_dimensions": [0, 0, 612, 700],
     "not_allowed_choices": [],
     "link_text": ["go to section "],

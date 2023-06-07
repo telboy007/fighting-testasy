@@ -132,6 +132,7 @@ dmypy.json
 .DS_Store
 
 # Fighting testasy
+personal/
 branch-imaging/
 exit-checks/
 endings-finder/
