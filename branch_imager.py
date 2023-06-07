@@ -15,8 +15,8 @@ import networkx as nx  # pylint: disable=import-error
 import matplotlib  # pylint: disable=wrong-import-position, import-error
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt # pylint: disable=wrong-import-position, import-error
-from lib.helpers.config import import_config # pylint: disable=wrong-import-position
-from lib.helpers.parse_adventure import parse_input_file # pylint: disable=wrong-import-position
+from src.helpers.config import import_config # pylint: disable=wrong-import-position
+from src.helpers.parse_adventure import parse_input_file # pylint: disable=wrong-import-position
 
 
 # configure internal settings
