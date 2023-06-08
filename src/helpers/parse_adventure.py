@@ -3,16 +3,16 @@
 """ Parse adventure and return dict of sections to main loop """
 
 import re
-import fitz # pylint: disable=import-error
+import fitz  # pylint: disable=import-error
 
 
 def find_matches(full_content):
     """
-        Takes in a tring and returns matches based on regex
-        Returns a list
+    Takes in a tring and returns matches based on regex
+    Returns a list
     """
     # setup internal settings
-    section_regex = r'(\d+)\n((?:(?!^\d+$).)*)'
+    section_regex = r"(\d+)\n((?:(?!^\d+$).)*)"
 
     # Find all matching entries in the text
     matches = re.findall(section_regex, full_content, re.DOTALL | re.MULTILINE)
@@ -21,9 +21,9 @@ def find_matches(full_content):
 
 
 def parse_input_file(input_file_path, config):
-    """ 
-        Takes input file and based on settings extracts text
-        Returns dict of adventure's sections
+    """
+    Takes input file and based on settings extracts text
+    Returns dict of adventure's sections
     """
     # setup internal settings
     full_content = ""
@@ -49,12 +49,14 @@ def parse_input_file(input_file_path, config):
         # Process the matches and populate the dictionary
         for match in matches:
             section = match[0]
-            desc = ' '.join(match[1].split('\n'))
-            exits = re.findall(fr'(?:{("|").join(next_section_text)})(\d+)', match[1], re.IGNORECASE) # pylint: disable=line-too-long
+            desc = " ".join(match[1].split("\n"))
+            exits = re.findall(
+                rf'(?:{("|").join(next_section_text)})(\d+)', match[1], re.IGNORECASE
+            )  # pylint: disable=line-too-long
             entries[section] = {
-                'section': section,
-                'desc': desc.replace("’", "'").replace('“', '"').replace('”', '"'),
-                'exits': exits
+                "section": section,
+                "desc": desc.replace("’", "'").replace("“", '"').replace("”", '"'),
+                "exits": exits,
             }
 
         return entries
