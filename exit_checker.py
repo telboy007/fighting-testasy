@@ -8,13 +8,13 @@ import argparse
 from pathlib import Path
 import os
 from ast import literal_eval
-from jinja2 import Environment, FileSystemLoader # pylint: disable=import-error
+from jinja2 import Environment, FileSystemLoader  # pylint: disable=import-error
 from src.helpers.config import import_config
 from src.helpers.parse_adventure import parse_input_file
 
 
 def flatten(alist, ltypes=(list, tuple)):
-    """ modified from https://code.activestate.com/recipes/363051/#c10 """
+    """modified from https://code.activestate.com/recipes/363051/#c10"""
     ltype = type(alist)
     alist = list(alist)
     i = 0
@@ -24,7 +24,7 @@ def flatten(alist, ltypes=(list, tuple)):
                 alist.pop(i)
                 i -= 1
                 break
-            alist[i:i + 1] = alist[i]
+            alist[i : i + 1] = alist[i]
         i += 1
     return ltype(alist)
 
@@ -38,7 +38,7 @@ if not os.path.exists(PATHING_DIRECTORY):
     os.makedirs(PATHING_DIRECTORY)
 
 # tidy up prior test runs
-for file in Path(PATHING_DIRECTORY).glob('*.html'):
+for file in Path(PATHING_DIRECTORY).glob("*.html"):
     try:
         file.unlink()
     except OSError as error:
@@ -46,23 +46,28 @@ for file in Path(PATHING_DIRECTORY).glob('*.html'):
 
 # set up command line parser
 parser = argparse.ArgumentParser(
-                    prog = 'python exit_checker.py',
-                    description = 'Finding orphaned sections so you don\'t have to.',
-                    epilog = 'See README for more details.')
+    prog="python exit_checker.py",
+    description="Finding orphaned sections so you don't have to.",
+    epilog="See README for more details.",
+)
 
-parser.add_argument('-i', '--input_file', help='Name of input file', required=True) # required
-parser.add_argument('-s',
-                    '--section_number',
-                    help='Starting section will be ignored when checking for orphaned sections',
-                    default=1,
-                    required=False
-                    ) # optional
-parser.add_argument('-c',
-                    '--config_file',
-                    help='Config file for test tool',
-                    default="testtool_config.json",
-                    required=False
-                    ) # optional
+parser.add_argument(
+    "-i", "--input_file", help="Name of input file", required=True
+)  # required
+parser.add_argument(
+    "-s",
+    "--section_number",
+    help="Starting section will be ignored when checking for orphaned sections",
+    default=1,
+    required=False,
+)  # optional
+parser.add_argument(
+    "-c",
+    "--config_file",
+    help="Config file for test tool",
+    default="testtool_config.json",
+    required=False,
+)  # optional
 
 args = parser.parse_args()
 
@@ -96,7 +101,7 @@ full_section_list = range(int(last_section) + 1)
 
 # create list of exits from adventure dict
 for entry in list(entries):
-    list_of_exits.append(entries[entry]['exits'])
+    list_of_exits.append(entries[entry]["exits"])
 
 # created ordered list of integers from list of lists
 list_of_exits = flatten(list_of_exits)
@@ -118,13 +123,15 @@ for item in unaccessible_sections_sorted:
     sections.append(entries[str(item)])
 
 # create report for this test run
-file_loader = FileSystemLoader('templates')
+file_loader = FileSystemLoader("templates")
 env = Environment(loader=file_loader)
-template = env.get_template('exit-sections.html')
+template = env.get_template("exit-sections.html")
 output = template.render(
-                        unaccessible_sections=unaccessible_sections_sorted,
-                        sections=sections,
-                        )
+    unaccessible_sections=unaccessible_sections_sorted,
+    sections=sections,
+)
 # save the report
-with open(f"{PATHING_DIRECTORY}/exit-check-test-report.html", "w", encoding="utf-8") as report:
+with open(
+    f"{PATHING_DIRECTORY}/exit-check-test-report.html", "w", encoding="utf-8"
+) as report:
     report.write(output)

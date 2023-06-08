@@ -13,10 +13,15 @@ import os
 import math
 import networkx as nx  # pylint: disable=import-error
 import matplotlib  # pylint: disable=wrong-import-position, import-error
-matplotlib.use('Agg')
-from matplotlib import pyplot as plt # pylint: disable=wrong-import-position, import-error
-from src.helpers.config import import_config # pylint: disable=wrong-import-position
-from src.helpers.parse_adventure import parse_input_file # pylint: disable=wrong-import-position
+
+matplotlib.use("Agg")
+from matplotlib import (
+    pyplot as plt,
+)  # pylint: disable=wrong-import-position, import-error
+from src.helpers.config import import_config  # pylint: disable=wrong-import-position
+from src.helpers.parse_adventure import (
+    parse_input_file,
+)  # pylint: disable=wrong-import-position
 
 
 # configure internal settings
@@ -28,7 +33,7 @@ if not os.path.exists(PATHING_DIRECTORY):
     os.makedirs(PATHING_DIRECTORY)
 
 # tidy up prior test runs
-for file in Path(PATHING_DIRECTORY).glob('*.png'):
+for file in Path(PATHING_DIRECTORY).glob("*.png"):
     try:
         file.unlink()
     except OSError as error:
@@ -36,17 +41,21 @@ for file in Path(PATHING_DIRECTORY).glob('*.png'):
 
 # set up command line parser
 parser = argparse.ArgumentParser(
-                    prog = 'python branch_imager.py',
-                    description = 'Test your own adventure.',
-                    epilog = 'See README for more details.')
+    prog="python branch_imager.py",
+    description="Test your own adventure.",
+    epilog="See README for more details.",
+)
 
-parser.add_argument('-i', '--input_file', help='Name of input file', required=True) # required
-parser.add_argument('-c',
-                    '--config_file',
-                    help='Config file for test tool',
-                    default="testtool_config.json",
-                    required=False
-                    ) # optional
+parser.add_argument(
+    "-i", "--input_file", help="Name of input file", required=True
+)  # required
+parser.add_argument(
+    "-c",
+    "--config_file",
+    help="Config file for test tool",
+    default="testtool_config.json",
+    required=False,
+)  # optional
 
 args = parser.parse_args()
 
@@ -88,8 +97,8 @@ for section in full_section_list:
     G.add_nodes_from(exits)
 
     for section_exit in exits:
-        #add edges
-        G.add_edge(str(section),section_exit)
+        # add edges
+        G.add_edge(str(section), section_exit)
 
 # try to work out decent sizes for the image
 figsizex = 6.4 * math.ceil(float(G.size() / 24))
@@ -117,16 +126,17 @@ element = colour_map.pop(0)
 colour_map.insert(0, "purple")
 
 # draw all the nodes
-nx.draw(G,
-        pos=nx.spring_layout(G),
-        with_labels=True,
-        node_color=colour_map,
-        width=0.5,
-        node_size=500,
-        font_size=12,
-        font_color="white",
-        font_weight="normal"
-        )
+nx.draw(
+    G,
+    pos=nx.spring_layout(G),
+    with_labels=True,
+    node_color=colour_map,
+    width=0.5,
+    node_size=500,
+    font_size=12,
+    font_color="white",
+    font_weight="normal",
+)
 
 # save the file
 try:

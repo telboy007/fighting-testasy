@@ -1,5 +1,6 @@
 [![Tests](https://github.com/telboy007/fighting-testasy/actions/workflows/build.yml/badge.svg)](https://github.com/telboy007/fighting-testasy/actions/workflows/build.yml)
-[![Compatibility](https://img.shields.io/badge/compatible%20with-fb2%20%7C%20ePub%20%7C%20PDF%20(not%20scanned)-orange)](https://github.com/telboy007/fighting-testasy)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Works with](https://img.shields.io/badge/works%20with-fb2%20%7C%20ePub%20%7C%20PDF%20(not%20scanned)-blue)](https://github.com/telboy007/fighting-testasy)
 
 # Fighting Testasy
 
@@ -58,7 +59,7 @@ PLEASE NOTE:
 * (PDF) It is easier to only have the adventure part in the pdf - remove the introduction sections, appendix, etc.  The adventure part can have images, maps, etc. they will be ignored.  Any font that is not recognised will appear as garbled characters in the section descriptions.
 * (FB2 or ePUB) It isn't as easy to remove parts of the file so a new option is available in the config file to handle these file types - this is detailed below.
 
-3. Run the following command: `python pathway_tester.py -i *your_pdf_file_name* -s 1 -r 10` - this will run the path tester against your pdf starting at section 1 and it will run 10 times, results can be found in the "pathing-tests" folder.
+3. Run the following command: `python pathway_tester.py -i *your_file_path* -s 1 -r 10` - this will run the path tester against your pdf starting at section 1 and it will run 10 times, results can be found in the "pathing-tests" folder.
 1. Each tool has its own help text to show you which command line args they need, use `-h` as the only arg to access this text.
 
 ```

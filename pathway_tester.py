@@ -9,51 +9,55 @@ import os
 import random
 from ast import literal_eval
 from pathlib import Path
-from jinja2 import Environment, FileSystemLoader # pylint: disable=import-error
+from jinja2 import Environment, FileSystemLoader  # pylint: disable=import-error
 from src.helpers.config import import_config
 from src.helpers.parse_adventure import parse_input_file
 
 
-# configure internal settings
+# setup output folder for test report
 PATHING_DIRECTORY = "pathing-tests"
 
-# check if the directory exists
 if not os.path.exists(PATHING_DIRECTORY):
-    # If it doesn't exist, create it
     os.makedirs(PATHING_DIRECTORY)
 
-# tidy up prior test runs
-for file in Path(PATHING_DIRECTORY).glob('*.html'):
+# tidy up previous test runs
+for file in Path(PATHING_DIRECTORY).glob("*.html"):
     try:
         file.unlink()
     except OSError as error:
         print(f"Error removing {file}: {error.strerror}")
 
-# set up command line parser
+# setup command line parser
 parser = argparse.ArgumentParser(
-                    prog = 'python pathway_test.py',
-                    description = 'Test your own adventure.',
-                    epilog = 'See README for more details.')
+    prog="python pathway_test.py",
+    description="Test your own adventure.",
+    epilog="See README for more details.",
+)
 
-parser.add_argument('-i', '--input_file', help='Name of input file', required=True) # required
-parser.add_argument('-r',
-                    '--test_runs',
-                    help='Number of times to run the pathway tests',
-                    default=1,
-                    required=False
-                    ) # optional
-parser.add_argument('-s',
-                    '--section_number',
-                    help='To start test at a different section number than one',
-                    default=1,
-                    required=False
-                    ) # optional
-parser.add_argument('-c',
-                    '--config_file',
-                    help='Config file for test tool',
-                    default="testtool_config.json",
-                    required=False
-                    ) # optional
+parser.add_argument(
+    "-i", "--input_file", help="Name of input file", required=True
+)  # required
+parser.add_argument(
+    "-r",
+    "--test_runs",
+    help="Number of times to run the pathway tests",
+    default=1,
+    required=False,
+)  # optional
+parser.add_argument(
+    "-s",
+    "--section_number",
+    help="To start test at a different section number than one",
+    default=1,
+    required=False,
+)  # optional
+parser.add_argument(
+    "-c",
+    "--config_file",
+    help="Config file for test tool",
+    default="testtool_config.json",
+    required=False,
+)  # optional
 
 args = parser.parse_args()
 
@@ -66,7 +70,7 @@ config_file_path = args.config_file
 # import config settings
 config = import_config(config_file_path)
 
-# set the config settings we want to use
+# set config settings
 insert_zero = config["insert_zero"]
 page_dimensions = config["page_dimensions"]
 not_allowed_choices = config["not_allowed_choices"]
@@ -84,7 +88,6 @@ all_sections_run = []
 
 # run the tests based on number of test runs
 for run in range(total_run_count):
-
     # need to add one to get a nice iteration number
     iteration = run + 1
 
@@ -98,7 +101,7 @@ for run in range(total_run_count):
     # first section content - no debug info needed
     section = {
         "section_number": f"Starting from section {section_start}",
-        "description": entries[str(section_start)]['desc']
+        "description": entries[str(section_start)]["desc"],
     }
 
     # add content to list for jinja2 template
@@ -113,7 +116,9 @@ for run in range(total_run_count):
         EXIT_LOOP = False
 
         # make note of previous section
-        previous_section = CURRENT_SECTION if CURRENT_SECTION is not None else section_start
+        previous_section = (
+            CURRENT_SECTION if CURRENT_SECTION is not None else section_start
+        )
 
         # start to create pathing decision logic debug info
         DEBUG = ""
@@ -140,9 +145,11 @@ for run in range(total_run_count):
                 break
             if index == len(entries[CURRENT_SECTION]["exits"]) - 1:
                 CURRENT_SECTION = random.choice(entries[CURRENT_SECTION]["exits"])
-                DEBUG += f"Visited all options, picking random exit: {CURRENT_SECTION}<br />"
+                DEBUG += (
+                    f"Visited all options, picking random exit: {CURRENT_SECTION}<br />"
+                )
                 break
-            DEBUG += f"\"{section_exit}\" has been previously visited, moving on.<br />"
+            DEBUG += f'"{section_exit}" has been previously visited, moving on.<br />'
 
         # write out pathing logic
         DEBUG += f"Moving to section: {CURRENT_SECTION}"
@@ -151,15 +158,17 @@ for run in range(total_run_count):
         if end_of_adventure_text:
             if end_of_adventure_text in entries[CURRENT_SECTION]["desc"]:
                 # split description text with end of adventure text and use left portion
-                entries[CURRENT_SECTION]["desc"] = entries[CURRENT_SECTION]["desc"].split(end_of_adventure_text)[0] # pylint: disable=line-too-long
+                entries[CURRENT_SECTION]["desc"] = entries[CURRENT_SECTION][
+                    "desc"
+                ].split(end_of_adventure_text)[0]
                 EXIT_LOOP = True
 
         # subsequent section content
         section = {
             "section_number": f"Section {entries[CURRENT_SECTION]['section']}",
-            "description": entries[CURRENT_SECTION]['desc'],
-            "pathing": f"Moving from \"{previous_section}\" to \"{CURRENT_SECTION}\"",
-            'debug_info': DEBUG
+            "description": entries[CURRENT_SECTION]["desc"],
+            "pathing": f'Moving from "{previous_section}" to "{CURRENT_SECTION}"',
+            "debug_info": DEBUG,
         }
 
         # add content to list for jinja2 template
@@ -192,7 +201,7 @@ for run in range(total_run_count):
     for item in not_allowed_choices_int:
         try:
             sections_not_visited.remove(item)
-        except: # pylint: disable=bare-except
+        except:  # pylint: disable=bare-except
             continue
 
     # and finally sort it
@@ -202,23 +211,23 @@ for run in range(total_run_count):
     all_sections_run = [str(i) for i in all_sections_run_sorted]
 
     # create report for this test run
-    file_loader = FileSystemLoader('templates')
+    file_loader = FileSystemLoader("templates")
     env = Environment(loader=file_loader)
-    template = env.get_template('content.html')
+    template = env.get_template("content.html")
     output = template.render(
-                            iteration=iteration,
-                            total_run_count=total_run_count,
-                            content=content,
-                            current_section=CURRENT_SECTION,
-                            last_section=last_section,
-                            current_journey=(" > ").join(current_journey),
-                            all_sections_run_sorted=all_sections_run_sorted,
-                            sections_not_visited_sorted=sections_not_visited_sorted
-                            )
+        iteration=iteration,
+        total_run_count=total_run_count,
+        content=content,
+        current_section=CURRENT_SECTION,
+        last_section=last_section,
+        current_journey=(" > ").join(current_journey),
+        all_sections_run_sorted=all_sections_run_sorted,
+        sections_not_visited_sorted=sections_not_visited_sorted,
+    )
     # save the report
     with open(
-              f"{PATHING_DIRECTORY}/pass-{iteration}-test-report.html", # output file
-              "w", # mode
-              encoding="utf-8" # encoding
-              ) as report:
+        f"{PATHING_DIRECTORY}/pass-{iteration}-test-report.html",  # final test report
+        "w",
+        encoding="utf-8",
+    ) as report:
         report.write(output)

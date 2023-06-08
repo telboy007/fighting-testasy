@@ -12,6 +12,7 @@ matplotlib = "*"
 scipy = "*"
 pytest = "*"
 pytest-cov = "*"
+black = "*"
 
 [dev-packages]
 
