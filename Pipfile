@@ -13,6 +13,7 @@ scipy = "*"
 pytest = "*"
 pytest-cov = "*"
 black = "*"
+pre-commit = "*"
 
 [dev-packages]
 
