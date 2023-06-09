@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# pylint: disable=duplicate-code
 
 """
     Branching out since 2023
@@ -215,14 +216,18 @@ for run in range(total_run_count):
     env = Environment(loader=file_loader)
     template = env.get_template("content.html")
     output = template.render(
+        file_name=input_file,
+        file_format=input_file.split(".")[-1].upper(),
         iteration=iteration,
         total_run_count=total_run_count,
         content=content,
         current_section=CURRENT_SECTION,
+        first_section=section_start,
         last_section=last_section,
         current_journey=(" > ").join(current_journey),
         all_sections_run_sorted=all_sections_run_sorted,
         sections_not_visited_sorted=sections_not_visited_sorted,
+        not_allowed_choices=not_allowed_choices,
     )
     # save the report
     with open(

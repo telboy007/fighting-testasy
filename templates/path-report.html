@@ -41,6 +41,16 @@ ul {
 
 <h2>Pathing run {{ iteration }} of {{ total_run_count }} - Test Report</h2>
 
+<h3>Test Inputs</h3>
+<ul>
+  <li><b>Filename:</b> "{{ file_name }}"</li>
+  <li><b>File format:</b> {{ file_format }}</li>
+  <li><b>Testing sections:</b> {{ first_section }} through {{last_section }}</li>
+  <li><b>Total test runs:</b> {{ total_run_count }}</li>
+</ul>
+
+<hr />
+
 <p>START OF TEST</p>
 
 {% block content %}
@@ -49,14 +59,18 @@ ul {
 
 <p>END OF TEST</p>
 
+<hr />
+
 <div class="summary">
   <h3>Pathing Summary - run {{ iteration }} of {{ total_run_count }}</h3>
   <ul>
     <li><b>Last section visited:</b> {{ current_section }} (last section in adventure is {{ last_section }})</li>
     <li><b>This journey:</b> {{ current_journey }}</li>
     <li><b>All sections visited so far:</b> {{ all_sections_run_sorted }}</li>
-    <li><b>Sections not visited by any journey:</b> {{ sections_not_visited_sorted }}</li>
+    <li><b>Sections not visited by any journey*:</b> {{ sections_not_visited_sorted }}</li>
+    <li><b>Sections avoided by test:</b> {{ not_allowed_choices }}</li>
   </ul>
+  *Not allowed sections have been removed from this list.
 </div>
 
 <script>
