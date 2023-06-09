@@ -1,0 +1,19 @@
+1
+The adventure begins, you are in a room with a door to
+the left and another to the right. If you go left (go to 3), if
+you go right (go to 2).
+2
+You enter into another room, this seems to be a dead
+end. You failed!
+3
+You enter the room and see another door in front of you
+Go through the door (go to 5).
+4
+This section of text can’t be accessed by the reader.
+5
+You find the treasure you’ve been searching for,
+congratulations adventurer. You win!
+
+END-HERE
+
+Stuff we don't want pick up by the test tool.
