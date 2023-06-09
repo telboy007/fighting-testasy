@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# pylint: disable=duplicate-code
 
 # Sources
 # https://stackoverflow.com/a/43147251
@@ -15,13 +16,13 @@ import networkx as nx  # pylint: disable=import-error
 import matplotlib  # pylint: disable=wrong-import-position, import-error
 
 matplotlib.use("Agg")
-from matplotlib import (
+from matplotlib import (  # pylint: disable=wrong-import-position, import-error
     pyplot as plt,
-)  # pylint: disable=wrong-import-position, import-error
+)
 from src.helpers.config import import_config  # pylint: disable=wrong-import-position
-from src.helpers.parse_adventure import (
+from src.helpers.parse_adventure import (  # pylint: disable=wrong-import-position
     parse_input_file,
-)  # pylint: disable=wrong-import-position
+)
 
 
 # configure internal settings

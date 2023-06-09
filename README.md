@@ -1,6 +1,6 @@
 [![Tests](https://github.com/telboy007/fighting-testasy/actions/workflows/build.yml/badge.svg)](https://github.com/telboy007/fighting-testasy/actions/workflows/build.yml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Works with](https://img.shields.io/badge/works%20with-fb2%20%7C%20ePub%20%7C%20PDF%20(not%20scanned)-blue)](https://github.com/telboy007/fighting-testasy)
+[![Works with](https://img.shields.io/badge/works%20with-txt%20%7C%20docx%20%7C%20rtf%20%7C%20fb2%20%7C%20ePub%20%7C%20PDF%20(not%20scanned)-blue)](https://github.com/telboy007/fighting-testasy)
 
 # Fighting Testasy
 
@@ -8,7 +8,7 @@ Tests your choose your own adventure!  This tool is very much an alpha at the mo
 
 ### What it currently does
 
-* Takes a PB2, ePUB or pdf file with embedded text (not image) and produces several test reports about pathing through your adventure, sections that are orphaned and not accessible by the reader and funky images of the branching - because why not!
+* Takes any of the compatible file types mentioned above and produces several test reports about pathing through your adventure, sections that are orphaned and not accessible by the reader and funky images of the branching - because why not!
 
 You can use the test assets in numerous ways:
 * The pathing test reports can be used by proof readers to check the flow of the adventure and make sure there aren't any logic jumps / story inconsistencies
@@ -18,8 +18,7 @@ You can use the test assets in numerous ways:
 
 ### What it doesn't currently do
 
-* Doesn't do any OCR shenanigans on image PDFs (not yet anayway)
-* Doesn't currently deal with txt, docx, etc. files (not yet anayway)
+* Doesn't accept scanned PDFs (initial OCR tests were very inconsistent - currently on the back burner)
 
 ### What adventure structure can the test tool deal with?
 

@@ -4,5 +4,5 @@
     "not_allowed_choices": ["2"],
     "link_text": "go to ",
     "last_section": "5",
-    "end_of_adventure_text": ""
+    "end_of_adventure_text": "END-HERE"
 }
