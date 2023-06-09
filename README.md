@@ -82,7 +82,7 @@ See README for more details.
 
 * The pathing test report will have debug information shown by dark grey bars that appear between the sections of text, these show the decision logic the tool used to navigate to the next section - in case you're wondering what is going on behind the scenes.  Also there is a summary at the bottom showing the journey through the adventure, what sections have been visited so far and which haven't.  The summary changes over the test run, i.e. by the 10th test run report the not visited sections should be a lot smaller than in the first report.
 
-<img width="916" alt="Example test report showing debug info and summary information." src="/media/pathing_report.png"><br />
+<img width="816" alt="Example test report showing debug info and summary information." src="/media/pathing_report.png"><br />
 Example test report showing debug info and summary information.
 
 * The exit checker test report will show a list of the sections the reader will never access and also print out the section text along with any exits mentioned in it's text.
