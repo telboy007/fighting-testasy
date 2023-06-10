@@ -37,7 +37,6 @@ def parse_input_file(input_file_path, config):
     if input_file_path.split(".")[-1] in ["txt"]:
         with open(input_file_path, "r", encoding="utf-8") as input_file:
             full_content = input_file.read()
-            print(full_content)
     elif input_file_path.split(".")[-1] in ["doc", "docx"]:
         doc = docx.Document(input_file_path)
         for para in doc.paragraphs:
