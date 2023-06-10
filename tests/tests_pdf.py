@@ -31,7 +31,7 @@ class Paths(TestCase):
         with open(path_output_file1, "r", encoding="utf-8") as path:
             contents = path.read()
             self.assertIn(
-                "<b>Last section visited:</b> 5 (last section in adventure is 5)",
+                "<b>Last section visited:</b> 9 (last section in adventure is 9)",
                 contents,
             )
 
@@ -73,7 +73,7 @@ class Exits(TestCase):
         with open(exits_output_file, "r", encoding="utf-8") as path:
             # check file length
             check_value = len(path.read())
-            self.assertEqual(check_value, 1056)
+            self.assertEqual(check_value, 1150)
 
     # test correct orphaned section found
     def test_exits_tester_content(self):
@@ -81,7 +81,7 @@ class Exits(TestCase):
         with open(exits_output_file, "r", encoding="utf-8") as path:
             # check correct section found
             contents = path.read()
-            self.assertIn("[4]", contents)
+            self.assertIn("[5]", contents)
 
 
 class Images(TestCase):
@@ -103,7 +103,7 @@ class Endings(TestCase):
         with open(endings_output_file, "r", encoding="utf-8") as path:
             # check file length
             check_value = len(path.read())
-            self.assertEqual(check_value, 1194)
+            self.assertEqual(check_value, 1440)
 
     # test correct orphaned section found
     def test_endings_finder_content(self):
@@ -111,4 +111,4 @@ class Endings(TestCase):
         with open(endings_output_file, "r", encoding="utf-8") as path:
             # check correct section found
             contents = path.read()
-            self.assertIn("['2', '4']", contents)
+            self.assertIn("['2', '5']", contents)

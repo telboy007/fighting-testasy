@@ -1,8 +1,8 @@
 {
     "insert_zero": false,
-    "page_dimensions": [0, 0, 612, 700],
+    "page_dimensions": [43, 31, 570, 742],
     "not_allowed_choices": ["2"],
-    "link_text": "go to ",
-    "last_section": "5",
+    "link_text": "turn to ",
+    "last_section": "9",
     "end_of_adventure_text": "END-HERE"
 }
