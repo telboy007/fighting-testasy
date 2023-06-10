@@ -55,12 +55,13 @@ def parse_input_file(input_file_path, config):
     if insert_zero:
         full_content = "0\n" + full_content
 
+    print(next_section_text)
     # process found matches and populate dictionary
     for match in find_matches(full_content):
         section = match[0]
         desc = " ".join(match[1].split("\n"))
         exits = re.findall(
-            rf'(?:{("|").join(next_section_text)})(\d+)', match[1], re.IGNORECASE
+            rf'(?:{("|").join(next_section_text)})\s*(\d+)', match[1], re.IGNORECASE
         )
         entries[section] = {
             "section": section,
