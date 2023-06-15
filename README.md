@@ -57,7 +57,7 @@ This test tool only runs locally at the moment, there is not a packaged version 
 PLEASE NOTE: 
 * (PDF) It is easier to only have the adventure part in the pdf - remove the introduction sections, appendix, etc.  The adventure part can have images, maps, etc. they will be ignored.  Any font that is not recognised will appear as garbled characters in the section descriptions.
 * (FB2 or ePUB) It isn't as easy to remove parts of the file so a new option is available in the config file to handle these file types - this is detailed below.
-* (TXT, DOCX or RTC) Remove headers and footers before running the document through the test tool, page numbers will very likely trip up the pathway tester for example.
+* (TXT, DOCX or RTF) Remove headers and footers before running the document through the test tool, page numbers will very likely trip up the pathway tester for example.
 
 3. Run the following command: `python pathway_tester.py -i *your_file_path* -s 1 -r 10` - this will run the path tester against your pdf starting at section 1 and it will run 10 times, results can be found in the "pathing-tests" folder.
 1. Each tool has its own help text to show you which command line args they need, use `-h` as the only arg to access this text.
